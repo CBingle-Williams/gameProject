@@ -4,7 +4,7 @@
     </head>
     <body>
         <button onclick="pipes('first')">Click Me</button>
-        <div id="canvas" class="container">
+        <div onmousedown="accelerate(-0.8)" onmouseup="accelerate(0.3)" id="canvas" class="container">
             <div id="first" class="parent">
                 <div id="top" class="box top"></div>
                 <div id="bottom" class="box bottom"></div>
