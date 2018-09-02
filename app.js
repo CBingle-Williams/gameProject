@@ -10,12 +10,10 @@ var first = true;
 var start = false;
 var collision = false;
 var counter = 0;
-var gravity = 30;
+var level = 0;
 
 function pipes(id) {
-    if(!start){
-        setInterval(updateGameArea, 20);
-    }
+    if(!start){setInterval(updateGameArea, 20);}
     start = true;
     var elem = document.getElementById(id);
     var topElem = elem.getElementsByClassName('box')[0];
@@ -48,14 +46,15 @@ function pipes(id) {
 function killBird() {
     bird.innerHTML = '<img src="bird1.png" height="50px" width="50px"></img>';
     square.style.transform = 'rotate(+90deg)';
+    square.style.transition = 'transform 0.7s';
 }
 
 function checkCollisions(x_axis, top, bottom){
     let height = removePX(window.getComputedStyle(square, null).getPropertyValue("top"));
-    if(x_axis > 400 && 480 > x_axis){
-        console.log('in zone');
-        if (!(height > top && bottom > (height+50))){
+    if(x_axis > 400 && 510 > x_axis){ // checks relative x_axis compared to position of bird relative to the right side of canvas.
+        if (!(height > top && bottom > (height+50))){ // checks if bird is in space between two pipes.
             collision = true;
+            object.gravity = 0.5;
             killBird();
         }
         else {
@@ -72,14 +71,12 @@ function removePX(string) {
 function component(x, y) {
     this.x = x;
     this.y = y;    
-    this.speedX = 0;
     this.speedY = 0;   
     this.height = 50; 
     this.gravity = 0.05;
     this.gravitySpeed = 0;
     this.newPos = function() {
         this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
         this.hitBottom();
     }
@@ -96,9 +93,7 @@ function component(x, y) {
 };
 
 function accelerate(n) {
-    if (!collision) {
-        object.gravity = n;
-    }
+    if (!collision) {object.gravity = n;}
 };
 function updateGameArea() {
     object.newPos();
