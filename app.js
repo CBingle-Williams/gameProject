@@ -1,24 +1,19 @@
 var CANVAS_HEIGHT = removePX(window.getComputedStyle(document.getElementsByClassName('container')[0], null).getPropertyValue("height"));
 var CANVAS_WIDTH = removePX(window.getComputedStyle(document.getElementsByClassName('container')[0], null).getPropertyValue("width"));
 var FREE_SPACE = 200;
-var sticks = document.getElementsByClassName('box');
 var pipe = document.getElementById('first');
-console.log(pipe);
 var first = true;
+var counter = 0;
 
-var object = {
-    createObject(){
-
-    },
-
-}
 function pipes(id) {
     var elem = document.getElementById(id);
+    var position = elem.getElementsByClassName('parent')[0];
     var topElem = elem.getElementsByClassName('box')[0];
     var bottomElem = elem.getElementsByClassName('box')[1];
     //var squares = document.getElementsByClassName('square')[0];
+    var space = [220,420];
     var pos = 0;
-    var id = setInterval(frame, 6);
+    var id = setInterval(frame, 10);
     function frame() {
         if(first && pos == 290){
             pipes('second');
@@ -29,20 +24,30 @@ function pipes(id) {
         let bottom = CANVAS_HEIGHT - FREE_SPACE - top;
         topElem.style.height = top + 'px';
         bottomElem.style.height = bottom + 'px';
+        space[0] = top;
+        space[1] = CANVAS_HEIGHT - bottom;
         pos = 0;
       } else {
+            checkCollisions(pos, space[0], space[1]);
             pos++;
             elem.style.right = pos + 'px';
         }
     }
 };
+
+function checkCollisions(x_axis, top, bottom){
+    console.log(x_axis + " " + top + " " + bottom);
+    if(x_axis == 400){
+        if (!(300 > top && bottom > (300+50))){
+            alert('collision');
+        }
+        else {
+            counter++;
+            document.getElementById('counter').innerHTML = counter;
+        }
+    }
+}
+
 function removePX(string) {
     return parseInt(string.replace('px',''));
 }
-function freeSpace(){
-    let top = removePX(window.getComputedStyle(sticks[0], null).getPropertyValue("height"));
-    let bottom = removePX(window.getComputedStyle(sticks[1], null).getPropertyValue("height"));
-    return ("Between: " + top + " and " + (CANVAS_HEIGHT-bottom));
-}
-console.log(CANVAS_HEIGHT);
-console.log(CANVAS_WIDTH);
