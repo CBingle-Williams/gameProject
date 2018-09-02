@@ -7,11 +7,16 @@ var bird = document.getElementById('bird');
 var square = document.getElementsByClassName('square')[0];
 var object = new component(removePX(window.getComputedStyle(square, null).getPropertyValue("left")), removePX(window.getComputedStyle(square, null).getPropertyValue("top")));
 var first = true;
+var start = false;
 var collision = false;
 var counter = 0;
 var gravity = 30;
 
 function pipes(id) {
+    if(!start){
+        setInterval(updateGameArea, 20);
+    }
+    start = true;
     var elem = document.getElementById(id);
     var topElem = elem.getElementsByClassName('box')[0];
     var bottomElem = elem.getElementsByClassName('box')[1];
@@ -43,20 +48,6 @@ function pipes(id) {
 function killBird() {
     bird.innerHTML = '<img src="bird1.png" height="50px" width="50px"></img>';
     square.style.transform = 'rotate(+90deg)';
-    var height = removePX(window.getComputedStyle(square, null).getPropertyValue("top"));
-    let counter = height;
-    let id = setInterval(drop,0.01);
-    function drop() {
-        if (removePX(window.getComputedStyle(square, null).getPropertyValue("top")) > 590) {
-            clearInterval(id);
-            return 0;
-        }
-        else {
-            console.log('hello');
-            counter = counter+4;
-            square.style.top = counter +'px';
-        }
-    }
 }
 
 function checkCollisions(x_axis, top, bottom){
@@ -66,7 +57,6 @@ function checkCollisions(x_axis, top, bottom){
         if (!(height > top && bottom > (height+50))){
             collision = true;
             killBird();
-            return true;
         }
         else {
             counter++;
@@ -113,5 +103,4 @@ function accelerate(n) {
 function updateGameArea() {
     object.newPos();
     object.update();
-}
-setInterval(updateGameArea, 20);    
+}    
