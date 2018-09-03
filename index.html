@@ -3,8 +3,7 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <button onclick="pipes('first')">Click Me</button>
-        <div onmousedown="accelerate(-0.9)" onmouseup="accelerate(0.3)" id="canvas" class="container">
+        <div onmousedown="accelerate(-1.4)" onmouseup="accelerate(0.5)" id="canvas" class="container">
             <div id="first" class="parent">
                 <div id="top" class="box top"></div>
                 <div id="bottom" class="box bottom"></div>
@@ -14,9 +13,15 @@
                 <div id="bottom" class="box bottom"></div>
             </div>
             <div id="bird" class="square"><img src="birdFly.gif" height='50px' width="50px"></div>
+            <div class="modal">
+                <div id="score"><img src="score.png" width="100px"></div>
+                <div id="counter">0</div>
+                <div id="highscore"></div>
+                <div id="restart"><img src="restart.png" width="150px"></div>
+                <div id="leaderboard"><img src="add-to-leaderboard.png" width="300px"></div>
+            </div>
             <!--<div class="square"></div>-->
         </div>
-        <div id="counter">0</div>
         <script src="app.js"></script>
     </body>
 </html>

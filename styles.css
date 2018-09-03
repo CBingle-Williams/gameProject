@@ -2,6 +2,9 @@ body{
     width: 480px;
     height: 640px;;
     margin: 0px auto;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 .container {
@@ -44,4 +47,33 @@ body{
     height: 50px;
     right: 400px;
     top: 300px;
+}
+
+.modal{
+    width: 300px;
+    height: auto;
+    position: absolute;
+    left: 90px;
+    top: 170px;
+    display: none;
+}
+
+#restart {
+    margin: 15px 75px;
+}
+
+#score {
+    margin: 0px 100px;
+}
+
+#counter {
+    top: 35px;
+    position: absolute;
+    left: 140px;
+}
+
+#highscore {
+    top: 80px;
+    position: absolute;
+    left: 140px;
 }

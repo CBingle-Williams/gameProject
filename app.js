@@ -4,13 +4,19 @@ var FREE_SPACE = 200;
 var container = document.getElementById('canvas');
 var pipe = document.getElementById('first');
 var bird = document.getElementById('bird');
+var start = document.getElementById('canvas').addEventListener('click', function(){setTimeout(pipes('first'),3000)}, {once:true});
 var square = document.getElementsByClassName('square')[0];
+var modal = document.getElementsByClassName('modal')[0];
+var reset = document.getElementById('restart').addEventListener('click', function (){location.reload()});
+var reset = document.getElementById('leaderboard').addEventListener('click', function (){cache.update()});
 var object = new component(removePX(window.getComputedStyle(square, null).getPropertyValue("left")), removePX(window.getComputedStyle(square, null).getPropertyValue("top")));
+var cache = new cache();
 var first = true;
 var start = false;
 var collision = false;
 var counter = 0;
 var level = 0;
+var highscore = parseInt(cache.check());
 
 function pipes(id) {
     if(!start){setInterval(updateGameArea, 20);}
@@ -47,6 +53,7 @@ function killBird() {
     bird.innerHTML = '<img src="bird1.png" height="50px" width="50px"></img>';
     square.style.transform = 'rotate(+90deg)';
     square.style.transition = 'transform 0.7s';
+    modal.style.display = 'block';
 }
 
 function checkCollisions(x_axis, top, bottom){
@@ -58,8 +65,10 @@ function checkCollisions(x_axis, top, bottom){
             killBird();
         }
         else {
-            counter++;
-            document.getElementById('counter').innerHTML = counter;
+            if(x_axis == 450) {
+                counter++;
+                document.getElementById('counter').innerHTML = counter;
+            }
         }
     }
 };
@@ -98,4 +107,32 @@ function accelerate(n) {
 function updateGameArea() {
     object.newPos();
     object.update();
-}    
+}
+function cache() {
+    this.highscore = null;
+    this.check = function(){
+        if(localStorage['highscore']){
+            this.highscore = parseInt(localStorage['highscore']);
+            document.getElementById('highscore').textContent = this.highscore;
+            return this.highscore;
+        }
+        else {return false;}
+    }
+    this.write = function() {
+        localStorage['highscore'] = this.highscore;
+        return localStorage['highscore'];
+    }
+    this.update = function() {
+        if(counter>this.highscore){
+            this.highscore = counter;
+            document.getElementById('highscore').textContent = this.highscore;
+            this.write();
+            return true;
+        }
+    }
+    this.reset = function(){
+        this.highscore = 0;
+        document.getElementById('highscore').textContent = this.highscore;
+        this.write();
+    }
+}
