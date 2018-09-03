@@ -17,7 +17,6 @@ var collision = false;
 var counter = 0;
 var level = 0;
 var highscore = cache.check();
-
 function pipes(id) {
     if(!start){setInterval(updateGameArea, 20);}
     start = true;
@@ -66,7 +65,7 @@ function checkCollisions(x_axis, top, bottom){
         }
         else {
             if(x_axis == 450) {
-                counter++;
+                counter++; 
                 document.getElementById('counter').innerHTML = counter;
             }
         }
@@ -82,7 +81,7 @@ function component(x, y) {
     this.y = y;    
     this.speedY = 0;   
     this.height = 50; 
-    this.gravity = 0.1;
+    this.gravity = 0.4;
     this.gravitySpeed = 0;
     this.newPos = function() {
         this.gravitySpeed += this.gravity;
