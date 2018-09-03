@@ -16,7 +16,7 @@ var start = false;
 var collision = false;
 var counter = 0;
 var level = 0;
-var highscore = parseInt(cache.check());
+var highscore = cache.check();
 
 function pipes(id) {
     if(!start){setInterval(updateGameArea, 20);}
@@ -82,7 +82,7 @@ function component(x, y) {
     this.y = y;    
     this.speedY = 0;   
     this.height = 50; 
-    this.gravity = 0.05;
+    this.gravity = 0.1;
     this.gravitySpeed = 0;
     this.newPos = function() {
         this.gravitySpeed += this.gravity;
@@ -102,7 +102,7 @@ function component(x, y) {
 };
 
 function accelerate(n) {
-    if (!collision) {object.gravity = n;}
+    if (!collision) {object.gravitySpeed = n;}
 };
 function updateGameArea() {
     object.newPos();
@@ -135,4 +135,4 @@ function cache() {
         document.getElementById('highscore').textContent = this.highscore;
         this.write();
     }
-}
+} 
