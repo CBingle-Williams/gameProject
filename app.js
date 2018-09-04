@@ -9,6 +9,8 @@ var square = document.getElementsByClassName('square')[0];
 var modal = document.getElementsByClassName('modal')[0];
 var reset = document.getElementById('restart').addEventListener('click', function (){location.reload()});
 var reset = document.getElementById('leaderboard').addEventListener('click', function (){cache.update()});
+var highScore = document.getElementById('highscore');
+var counterDiv = document.getElementById('counter');
 var object = new component(removePX(window.getComputedStyle(square, null).getPropertyValue("left")), removePX(window.getComputedStyle(square, null).getPropertyValue("top")));
 var cache = new cache();
 var first = true;
@@ -23,7 +25,7 @@ function pipes(id) {
     var elem = document.getElementById(id);
     var topElem = elem.getElementsByClassName('box')[0];
     var bottomElem = elem.getElementsByClassName('box')[1];
-    var space = [220,420];
+    var space = [220,420]; //240 and 420 are set values for first two pipes
     var pos = 0;
     var id = setInterval(frame, 6);
     function frame() {
@@ -48,6 +50,18 @@ function pipes(id) {
     }
 };
 
+function rotate(){
+    square.style.transform = 'rotate(-20deg)';
+    square.style.transition = 'transform 0.4s';
+    setTimeout(reverseRotation, 400);
+}
+
+function reverseRotation(){
+    square.style.transform = 'rotate(+90deg)';
+    square.style.transition = 'transform 1.0s';
+}
+
+
 function killBird() {
     bird.innerHTML = '<img src="bird1.png" height="50px" width="50px"></img>';
     square.style.transform = 'rotate(+90deg)';
@@ -59,14 +73,14 @@ function checkCollisions(x_axis, top, bottom){
     let height = removePX(window.getComputedStyle(square, null).getPropertyValue("top"));
     if(x_axis > 400 && 510 > x_axis){ // checks relative x_axis compared to position of bird relative to the right side of canvas.
         if (!(height > top && bottom > (height+50))){ // checks if bird is in space between two pipes.
-            collision = true;
-            object.gravity = 0.5;
-            killBird();
+            collision = true; //stops user being able to move bird
+            object.gravity = 0.7;
+            //killBird();
         }
         else {
             if(x_axis == 450) {
                 counter++; 
-                document.getElementById('counter').innerHTML = counter;
+                counterDiv.innerHTML = counter;
             }
         }
     }
@@ -80,7 +94,7 @@ function component(x, y) {
     this.x = x;
     this.y = y;    
     this.speedY = 0;   
-    this.height = 50; 
+    this.height = 50; // accounts for the height of the bird;
     this.gravity = 0.4;
     this.gravitySpeed = 0;
     this.newPos = function() {
@@ -101,7 +115,10 @@ function component(x, y) {
 };
 
 function accelerate(n) {
-    if (!collision) {object.gravitySpeed = n;}
+    if (!collision) {
+        object.gravitySpeed = n;
+        rotate();
+    }
 };
 function updateGameArea() {
     object.newPos();
@@ -112,7 +129,7 @@ function cache() {
     this.check = function(){
         if(localStorage['highscore']){
             this.highscore = parseInt(localStorage['highscore']);
-            document.getElementById('highscore').textContent = this.highscore;
+            highScore.textContent = this.highscore;
             return this.highscore;
         }
         else {return false;}
@@ -124,14 +141,14 @@ function cache() {
     this.update = function() {
         if(counter>this.highscore){
             this.highscore = counter;
-            document.getElementById('highscore').textContent = this.highscore;
+            highScore.textContent = this.highscore;
             this.write();
             return true;
         }
     }
     this.reset = function(){
         this.highscore = 0;
-        document.getElementById('highscore').textContent = this.highscore;
+        highScore.textContent = this.highscore;
         this.write();
     }
 } 
