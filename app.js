@@ -54,20 +54,12 @@ function rotate(){
     square.style.transform = 'rotate(-20deg)';
     square.style.transition = 'transform 0.4s';
     setTimeout(reverseRotation, 400);
-}
+};
 
 function reverseRotation(){
     square.style.transform = 'rotate(+90deg)';
     square.style.transition = 'transform 1.0s';
-}
-
-
-function killBird() {
-    bird.innerHTML = '<img src="bird1.png" height="50px" width="50px"></img>';
-    square.style.transform = 'rotate(+90deg)';
-    square.style.transition = 'transform 0.7s';
-    modal.style.display = 'block';
-}
+};
 
 function checkCollisions(x_axis, top, bottom){
     let height = removePX(window.getComputedStyle(square, null).getPropertyValue("top"));
@@ -151,4 +143,4 @@ function cache() {
         highScore.textContent = this.highscore;
         this.write();
     }
-} 
+};
