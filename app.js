@@ -1,10 +1,14 @@
 var CANVAS_HEIGHT = removePX(window.getComputedStyle(document.getElementsByClassName('container')[0], null).getPropertyValue("height"));
 var CANVAS_WIDTH = removePX(window.getComputedStyle(document.getElementsByClassName('container')[0], null).getPropertyValue("width"));
 var FREE_SPACE = 200;
+var scoreCounter = document.getElementsByClassName('score')[0];
 var container = document.getElementById('canvas');
 var pipe = document.getElementById('first');
 var bird = document.getElementById('bird');
-var start = document.getElementById('canvas').addEventListener('click', function(){setTimeout(pipes('first'),3000)}, {once:true});
+var start = document.getElementById('canvas').addEventListener('click', function(){
+    setTimeout(pipes('first'),3000);
+    scoreCounter.style.display = 'block';
+}, {once:true});
 var square = document.getElementsByClassName('square')[0];
 var modal = document.getElementsByClassName('modal')[0];
 var reset = document.getElementById('restart').addEventListener('click', function (){location.reload()});
@@ -52,18 +56,19 @@ function pipes(id) {
 
 function rotate(){
     square.style.transform = 'rotate(-20deg)';
-    square.style.transition = 'transform 0.4s';
+    square.style.transition = 'transform 0.2s';
     setTimeout(reverseRotation, 400);
 }
 
 function reverseRotation(){
     square.style.transform = 'rotate(+90deg)';
-    square.style.transition = 'transform 1.0s';
+    square.style.transition = 'transform 1.2s';
 }
 
 
 function killBird() {
     bird.innerHTML = '<img src="bird1.png" height="50px" width="50px"></img>';
+    scoreCounter.style.display = 'none';
     modal.style.display = 'block';
 }
 
@@ -79,6 +84,7 @@ function checkCollisions(x_axis, top, bottom){
             if(x_axis == 450) {
                 counter++; 
                 counterDiv.innerHTML = counter;
+                scoreCounter.innerHTML = counter;
             }
         }
     }
