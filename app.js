@@ -54,12 +54,18 @@ function rotate(){
     square.style.transform = 'rotate(-20deg)';
     square.style.transition = 'transform 0.4s';
     setTimeout(reverseRotation, 400);
-};
+}
 
 function reverseRotation(){
     square.style.transform = 'rotate(+90deg)';
     square.style.transition = 'transform 1.0s';
-};
+}
+
+
+function killBird() {
+    bird.innerHTML = '<img src="bird1.png" height="50px" width="50px"></img>';
+    modal.style.display = 'block';
+}
 
 function checkCollisions(x_axis, top, bottom){
     let height = removePX(window.getComputedStyle(square, null).getPropertyValue("top"));
@@ -67,7 +73,7 @@ function checkCollisions(x_axis, top, bottom){
         if (!(height > top && bottom > (height+50))){ // checks if bird is in space between two pipes.
             collision = true; //stops user being able to move bird
             object.gravity = 0.7;
-            //killBird();
+            killBird();
         }
         else {
             if(x_axis == 450) {
@@ -143,4 +149,4 @@ function cache() {
         highScore.textContent = this.highscore;
         this.write();
     }
-};
+} 
